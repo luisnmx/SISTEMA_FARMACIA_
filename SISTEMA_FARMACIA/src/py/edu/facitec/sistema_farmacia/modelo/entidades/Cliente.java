@@ -1,24 +1,40 @@
 package py.edu.facitec.sistema_farmacia.modelo.entidades;
 
+import jakarta.persistence.*;
+import java.util.List;
 
+@Entity
+@Table(name = "cliente")
 public class Cliente {
-    
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false, length = 255)
     private String nombre;
+
+    @Column(nullable = false, length = 255)
     private String apellido;
+
+    @Column(nullable = false, length = 45)
     private String documento;
+
+    @Column(length = 255)
     private String email;
+
+    @Column(length = 45)
     private String telefono;
+
+    @Column(length = 255)
     private String direccion;
 
-    // Constructor vacío
+    // Un cliente puede tener muchas ventas
+    @OneToMany(mappedBy = "cliente")
+    private List<Venta> ventas;
+
     public Cliente() {
     }
-
-    
-    
-
-    // Getters y Setters
 
     public int getId() {
         return id;
@@ -26,7 +42,7 @@ public class Cliente {
 
     public void setId(int id) {
         this.id = id;
-    }
+    }    
 
     public String getNombre() {
         return nombre;
@@ -74,5 +90,13 @@ public class Cliente {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public List<Venta> getVentas() {
+        return ventas;
+    }
+
+    public void setVentas(List<Venta> ventas) {
+        this.ventas = ventas;
     }
 }

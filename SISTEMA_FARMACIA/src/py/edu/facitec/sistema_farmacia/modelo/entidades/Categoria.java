@@ -1,18 +1,28 @@
 package py.edu.facitec.sistema_farmacia.modelo.entidades;
 
+import jakarta.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "categoria")
 public class Categoria {
-    
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false, length = 255)
     private String descripcion;
+
+    @Column(nullable = false)
     private boolean estado;
 
-    // Constructor vacío
+    @OneToMany(mappedBy = "categoria")
+    private List<Producto> productos;
+
     public Categoria() {
     }
 
-  
-
-    // Getters y Setters
     public int getId() {
         return id;
     }
@@ -35,5 +45,13 @@ public class Categoria {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
     }
 }

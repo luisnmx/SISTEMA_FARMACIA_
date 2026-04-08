@@ -1,55 +1,108 @@
 package py.edu.facitec.sistema_farmacia.modelo.entidades;
+
+import jakarta.persistence.*;
 import java.util.Date;
-public class Lote {	    
-	    private int id;
-	    private String numeroLote;
-	    private Date fechaVencimiento;
-	    private int stockActual;
-	    private Producto producto;
+import java.util.List;
 
-	    // Constructor vacío
-	    public Lote() {
-	    }
+@Entity
+@Table(name = "lote")
+public class Lote {
 
-	    // Getters y Setters
-	    public int getId() {
-	        return id;
-	    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	    public void setId(int id) {
-	        this.id = id;
-	    }    
+    @Column(name = "numero_lote", nullable = false, length = 100)
+    private String numeroLote;
 
-	    public String getNumeroLote() {
-	        return numeroLote;
-	    }
+    @Temporal(TemporalType.DATE)
+    @Column(name = "fecha_vencimiento")
+    private Date fechaVencimiento;
 
-	    public void setNumeroLote(String numeroLote) {
-	        this.numeroLote = numeroLote;
-	    }
+    @Column(name = "cantidad", nullable = false)
+    private int stockActual;
 
-	    public Date getFechaVencimiento() {
-	        return fechaVencimiento;
-	    }
+    // Muchos lotes pertenecen a un producto
+    @ManyToOne
+    @JoinColumn(name = "producto_id")
+    private Producto producto;
 
-	    public void setFechaVencimiento(Date fechaVencimiento) {
-	        this.fechaVencimiento = fechaVencimiento;
-	    }
+    // Un lote puede estar en muchos detalles de compra
+    @OneToMany(mappedBy = "lote")
+    private List<CompraDetalle> compraDetalles;
 
-	    public int getStockActual() {
-	        return stockActual;
-	    }
+    // Un lote puede estar en muchos detalles de venta
+    @OneToMany(mappedBy = "lote")
+    private List<VentaDetalle> ventaDetalles;
 
-	    public void setStockActual(int stockActual) {
-	        this.stockActual = stockActual;
-	    }
+    // Un lote puede tener muchos movimientos de stock
+    @OneToMany(mappedBy = "lote")
+    private List<MovimientoStock> movimientosStock;
 
-	    public Producto getProducto() {
-	        return producto;
-	    }
+    public Lote() {
+    }
 
-	    public void setProducto(Producto producto) {
-	        this.producto = producto;
-	    }
-	}
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }    
+
+    public String getNumeroLote() {
+        return numeroLote;
+    }
+
+    public void setNumeroLote(String numeroLote) {
+        this.numeroLote = numeroLote;
+    }
+
+    public Date getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(Date fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public int getStockActual() {
+        return stockActual;
+    }
+
+    public void setStockActual(int stockActual) {
+        this.stockActual = stockActual;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public List<CompraDetalle> getCompraDetalles() {
+        return compraDetalles;
+    }
+
+    public void setCompraDetalles(List<CompraDetalle> compraDetalles) {
+        this.compraDetalles = compraDetalles;
+    }
+
+    public List<VentaDetalle> getVentaDetalles() {
+        return ventaDetalles;
+    }
+
+    public void setVentaDetalles(List<VentaDetalle> ventaDetalles) {
+        this.ventaDetalles = ventaDetalles;
+    }
+
+    public List<MovimientoStock> getMovimientosStock() {
+        return movimientosStock;
+    }
+
+    public void setMovimientosStock(List<MovimientoStock> movimientosStock) {
+        this.movimientosStock = movimientosStock;
+    }
+}

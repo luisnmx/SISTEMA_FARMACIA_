@@ -1,23 +1,39 @@
 package py.edu.facitec.sistema_farmacia.modelo.entidades;
 
-
-
+import jakarta.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "movimiento_stock")
 public class MovimientoStock {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "tipo", nullable = false, length = 45)
     private String tipoMovimiento;
+
+    @Column(nullable = false)
     private int cantidad;
+
+    @Temporal(TemporalType.TIMESTAMP) // porque en el DER está como DATETIME
+    @Column(nullable = false)
     private Date fecha;
+
+    // Muchos movimientos pertenecen a un lote
+    @ManyToOne
+    @JoinColumn(name = "lote_id")
     private Lote lote;
+
+    // Muchos movimientos pertenecen a un funcionario
+    @ManyToOne
+    @JoinColumn(name = "funcionario_id")
     private Funcionario funcionario;
 
-    // Constructor vacío
     public MovimientoStock() {
     }
 
-    // Getters y Setters
     public int getId() {
         return id;
     }

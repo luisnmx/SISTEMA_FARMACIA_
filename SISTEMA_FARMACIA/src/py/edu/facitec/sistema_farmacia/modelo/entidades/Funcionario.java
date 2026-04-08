@@ -1,93 +1,137 @@
 package py.edu.facitec.sistema_farmacia.modelo.entidades;
 
+import jakarta.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "funcionario")
 public class Funcionario {
-	
-	// ATRIBTUTOS PROPIOS DE LA CLASE 
-private int id ;
-private String nombre;
-private String apellido;
-private String documento;
-private String email;
-private String telefono;
-private String cargo;
-private Boolean estado;
 
-// SIN PARAMETROS
-public Funcionario() {
-}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
+    @Column(nullable = false, length = 255)
+    private String nombre;
 
-// GETTERS Y SETTERS
+    @Column(nullable = false, length = 255)
+    private String apellido;
 
-public int getId() {
-	return id;
-}
+    @Column(nullable = false, length = 45)
+    private String documento;
 
-public void setId(int id) {
-	this.id = id;
-}
+    @Column(length = 255)
+    private String email;
 
-public String getNombre() {
-	return nombre;
-}
+    @Column(length = 45)
+    private String telefono;
 
-public void setNombre(String nombre) {
-	this.nombre = nombre;
-}
+    @Column(length = 45)
+    private String cargo;
 
-public String getApellido() {
-	return apellido;
-}
+    @Column(nullable = false)
+    private Boolean estado;
 
-public void setApellido(String apellido) {
-	this.apellido = apellido;
-}
+    // Un funcionario puede registrar muchas ventas
+    @OneToMany(mappedBy = "funcionario")
+    private List<Venta> ventas;
 
-public String getDocumento() {
-	return documento;
-}
+    // Un funcionario puede registrar muchas compras
+    @OneToMany(mappedBy = "funcionario")
+    private List<Compra> compras;
 
-public void setDocumento(String documento) {
-	this.documento = documento;
-}
+    // Un funcionario puede registrar muchos movimientos de stock
+    @OneToMany(mappedBy = "funcionario")
+    private List<MovimientoStock> movimientosStock;
 
-public String getEmail() {
-	return email;
-}
+    public Funcionario() {
+    }
 
-public void setEmail(String email) {
-	this.email = email;
-}
+    public int getId() {
+        return id;
+    }
 
-public String getTelefono() {
-	return telefono;
-}
+    public void setId(int id) {
+        this.id = id;
+    }    
 
-public void setTelefono(String telefono) {
-	this.telefono = telefono;
-}
+    public String getNombre() {
+        return nombre;
+    }
 
-public String getCargo() {
-	return cargo;
-}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-public void setCargo(String cargo) {
-	this.cargo = cargo;
-}
+    public String getApellido() {
+        return apellido;
+    }
 
-public Boolean getEstado() {
-	return estado;
-}
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
 
-public void setEstado(Boolean estado) {
-	this.estado = estado;
-}
+    public String getDocumento() {
+        return documento;
+    }
 
+    public void setDocumento(String documento) {
+        this.documento = documento;
+    }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
+    public String getTelefono() {
+        return telefono;
+    }
 
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
 
+    public String getCargo() {
+        return cargo;
+    }
 
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
 
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    public List<Venta> getVentas() {
+        return ventas;
+    }
+
+    public void setVentas(List<Venta> ventas) {
+        this.ventas = ventas;
+    }
+
+    public List<Compra> getCompras() {
+        return compras;
+    }
+
+    public void setCompras(List<Compra> compras) {
+        this.compras = compras;
+    }
+
+    public List<MovimientoStock> getMovimientosStock() {
+        return movimientosStock;
+    }
+
+    public void setMovimientosStock(List<MovimientoStock> movimientosStock) {
+        this.movimientosStock = movimientosStock;
+    }
 }

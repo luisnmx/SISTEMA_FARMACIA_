@@ -1,25 +1,68 @@
 package py.edu.facitec.sistema_farmacia.modelo.entidades;
 
+import jakarta.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "producto")
 public class Producto {
-    
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false, length = 255)
     private String descripcion;
+
+    @Column(nullable = false, length = 255)
     private String codigo;
+
+    @Column(name = "principio_activo", length = 255)
     private String principioActivo;
+
+    @Column(length = 100)
     private String concentracion;
+
+    @Column(name = "forma_farmaceutica", length = 100)
     private String formaFarmaceutica;
+
+    @Column(name = "requiere_receta", nullable = false)
     private boolean requiereReceta;
+
+    @Column(name = "tiene_vencimiento", nullable = false)
     private boolean tieneVencimiento;
+
+    @Column(name = "precio_venta", nullable = false)
     private double precioVenta;
+
+    @Column(length = 45)
     private String impuesto;
+
+    // Muchos productos pertenecen a una categoria
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
+
+    // Muchos productos pertenecen a una marca
+    @ManyToOne
+    @JoinColumn(name = "marca_id")
     private Marca marca;
 
-    // Constructor vacío
+    // Un producto puede tener muchos lotes
+    @OneToMany(mappedBy = "producto")
+    private List<Lote> lotes;
+
+    // Un producto puede estar en muchos detalles de compra
+    @OneToMany(mappedBy = "producto")
+    private List<CompraDetalle> compraDetalles;
+
+    // Un producto puede estar en muchos detalles de venta
+    @OneToMany(mappedBy = "producto")
+    private List<VentaDetalle> ventaDetalles;
+
     public Producto() {
     }
 
-    // Getters y Setters
     public int getId() {
         return id;
     }
@@ -114,5 +157,29 @@ public class Producto {
 
     public void setMarca(Marca marca) {
         this.marca = marca;
+    }
+
+    public List<Lote> getLotes() {
+        return lotes;
+    }
+
+    public void setLotes(List<Lote> lotes) {
+        this.lotes = lotes;
+    }
+
+    public List<CompraDetalle> getCompraDetalles() {
+        return compraDetalles;
+    }
+
+    public void setCompraDetalles(List<CompraDetalle> compraDetalles) {
+        this.compraDetalles = compraDetalles;
+    }
+
+    public List<VentaDetalle> getVentaDetalles() {
+        return ventaDetalles;
+    }
+
+    public void setVentaDetalles(List<VentaDetalle> ventaDetalles) {
+        this.ventaDetalles = ventaDetalles;
     }
 }

@@ -1,23 +1,44 @@
 package py.edu.facitec.sistema_farmacia.modelo.entidades;
 
-
+import jakarta.persistence.*;
 import java.util.Date;
 
+@Entity // Tabla en BD
+@Table(name = "compra_detalle")
 public class CompraDetalle {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Temporal(TemporalType.DATE) // Solo fecha
+    @Column(name = "fecha_vencimiento")
     private Date fechaVencimiento;
+
+    @Column(nullable = false)
     private int cantidad;
+
+    @Column(nullable = false)
     private double costo;
+
+    // MUCHOS detalles pertenecen a UNA compra
+    @ManyToOne
+    @JoinColumn(name = "compra_id")
     private Compra compra;
+
+    // MUCHOS detalles pueden estar ligados a UN lote
+    @ManyToOne
+    @JoinColumn(name = "lote_id")
     private Lote lote;
+
+    // MUCHOS detalles son de UN producto
+    @ManyToOne
+    @JoinColumn(name = "producto_id")
     private Producto producto;
 
-    // Constructor vacío
     public CompraDetalle() {
     }
 
-    // Getters y Setters
     public int getId() {
         return id;
     }
@@ -26,12 +47,12 @@ public class CompraDetalle {
         this.id = id;
     }
 
-    public Date getFecha_vencimiento() {
+    public Date getFechaVencimiento() {
         return fechaVencimiento;
     }
 
-    public void setFecha_vencimiento(Date fecha_vencimiento) {
-        this.fechaVencimiento = fecha_vencimiento;
+    public void setFechaVencimiento(Date fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
     }
 
     public int getCantidad() {
@@ -49,7 +70,6 @@ public class CompraDetalle {
     public void setCosto(double costo) {
         this.costo = costo;
     }
-
 
     public Compra getCompra() {
         return compra;
